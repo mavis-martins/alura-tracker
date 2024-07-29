@@ -1,10 +1,10 @@
 <template>
-  <main class="columns is-gapless is-multiline">
+  <main class="columns is-gapless is-multiline" :class="{'modo-escuro': temaEscuroAtivo}">
     <div class="column is-one-quarter">
-      <BarraLateral />
+      <BarraLateral @temaAlterado="alterarTema" />
     </div>
     <KeepAlive>
-      <div class="column is-three-quarter">
+      <div class="column is-three-quarter conteudo">
         <FormularioTarefa @salvarTarefa="adicionarTarefa" />
         <!-- Lista de Tarefas -->
         <div class="lista">
@@ -40,7 +40,8 @@ export default defineComponent({
   },
   data() {
     return {
-      tarefas: [] as ITarefa[]
+      tarefas: [] as ITarefa[],
+      temaEscuroAtivo: false
     }
   },
   computed: {
@@ -51,6 +52,9 @@ export default defineComponent({
   methods: {
     adicionarTarefa(tarefa: ITarefa) {
       this.tarefas.push(tarefa);
+    },
+    alterarTema(temaEscuroAtivo: boolean) {
+      this.temaEscuroAtivo = temaEscuroAtivo;
     }
   }
 });
@@ -59,5 +63,20 @@ export default defineComponent({
 <style scoped>
 .lista {
   padding: 1.25rem;
+}
+
+main {
+  --bg-primario: #fff;
+  --texto-primario: #000;
+}
+
+main.modo-escuro {
+  --bg-primario: #2b2d42;
+  --texto-primario: #ddd;
+}
+
+.conteudo {
+  background-color: var(--bg-primario);
+  color: var(--texto-primario);
 }
 </style>
